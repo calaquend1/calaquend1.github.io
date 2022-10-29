@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
+import List from './components/ContactList';
+
 import './App.css';
 
 function App() {
@@ -9,6 +11,7 @@ function App() {
           <p>paragraph</p>
           <div>div</div>
           <h1>header</h1>
+          <List />
     </div>
   );
 }
