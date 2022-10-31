@@ -7,14 +7,18 @@
     transition: opacity 1.2s ease;
     backdrop-filter: blur(2px);
 }
-  
+
 .modal {
     position: absolute;
     width: 500px;
     border-radius: 10px;
     padding: 20px;
-    margin:20px auto;
+    margin: 20px auto;
     background: blue;
     left: 0px;
     right: 0px;
+}
+
+.checked {
+    text-decoration: line-through;
 }

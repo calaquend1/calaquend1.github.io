@@ -1,33 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
+import { Contact, AddPerson, ModalInpit, CreateGroup } from './types';
+import { Group } from '../Groups/types';
+import Person from './Person';
+import { contactsContext, groupsContext } from '../../App';
 import './list.css';
-
-const defaultContacts = [
-    { name: 'Michael', debt: 35, phone: '123' },
-    { name: 'John', debt: 37, phone: '124' },
-    { name: 'Lily', debt: 42, phone: '125' },
-    { name: 'Elsa', debt: 94, phone: '126' },
-    { name: 'Jennifer', debt: 25, phone: '127' },
-]
-
-type Contact = {
-    name: string,
-    debt: number,
-    phone: string
-}
-
-type ListProps = {
-    contacts?: Contact[]
-}
-type AddPerson = {
-    isOpen: Boolean,
-    setShowModal: (e: Boolean) => void,
-    addPerson: (person: Contact) => void;
-}
-
-type ModalInpit = {
-    text: string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
 
 const ModalInput = (props: ModalInpit) => {
     const { text, onChange } = props;
@@ -38,8 +14,8 @@ const ModalInput = (props: ModalInpit) => {
 }
 
 const AddPersonModal = (props: AddPerson) => {
-    const { isOpen, setShowModal, addPerson } = props;
-    const [person, setPerson] = useState({ name: '', phone: '', debt: 0 });
+    const { isOpen, setShowModal, addPerson, id } = props;
+    const [person, setPerson] = useState({ name: '', phone: '', debt: 0, id: id });
     if (!isOpen) return null;
 
     return (
@@ -55,85 +31,51 @@ const AddPersonModal = (props: AddPerson) => {
         </>)
 }
 
-type PersonProps = {
-    person: Contact,
-    isChecked: boolean,
-    onSelect: (e: boolean) => void,
-    group: boolean
-}
-
-const Person = (props: PersonProps) => {
-    const { person, isChecked, onSelect, group } = props;
-
-    return <div key={`${person.name}-${person.phone}`}>
-        <div >{person.name} - {person.phone}{group ? ` - ${person.debt}` : ''}</div>
-        <input value={person.name} checked={isChecked} type="checkbox" onChange={() => onSelect(!isChecked)} />
-    </div>
-}
-
 const GetChosenContactsList = (checkedContacts: { [key: string]: boolean }, contacts: Contact[]) => {
     return contacts.filter((contact: Contact) => checkedContacts[`${contact.name}${contact.phone}`])
 }
 
-const List = (props: ListProps) => {
-    const { contacts = defaultContacts } = props;
-    const [stateContacts, setContacts] = useState<Contact[]>(contacts);
+const List = () => {
+    const { contacts, setContextContacts } = useContext(contactsContext);
+    const { groups, setGroups } = useContext(groupsContext)
+
     const [isOpenAddPerson, setIsOpenAddPerson] = useState<Boolean>(false);
     const [isOpenCreateGroup, setIsOpenCreateGroup] = useState<Boolean>(false);
-    const [checkedContacts, setCheckedContacts] = useState<{ [key: string]: boolean }>(stateContacts
+    const [checkedContacts, setCheckedContacts] = useState<{ [key: string]: boolean }>(contacts
         .reduce((acc, person) => ({ ...acc, [`${person.name}${person.phone}`]: false }), {}));
-    const [groups, setGroup] = useState<Group[]>([]);
-    const chosenContactsList = useMemo(() => GetChosenContactsList(checkedContacts, stateContacts), [checkedContacts, stateContacts]);
+    const chosenContactsList = useMemo(() => GetChosenContactsList(checkedContacts, contacts), [checkedContacts, contacts]);
 
     const handleSelectContact = (id: string, value: boolean) => {
         setCheckedContacts({ ...checkedContacts, [id]: value })
     }
 
     const addPerson = (person: Contact) => {
-        setContacts([...stateContacts, person]);
+        setContextContacts([...contacts, person])
         setIsOpenAddPerson(false);
     };
 
     const createGroup = (group: Group) => {
-        console.log(group, 'group here')
-        setGroup([...groups, { ...group, list: chosenContactsList }]);
+        setGroups([...groups, { ...group, list: chosenContactsList, date: new Date() }]);
         setIsOpenCreateGroup(false);
     }
-    console.log(groups, 'groups');
-    console.log(chosenContactsList, 'list')
     return (<div>
         <button onClick={() => setIsOpenAddPerson(!isOpenAddPerson)}>добавить контакт</button>
-        <AddPersonModal addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
+        <AddPersonModal id={contacts.length + 1} addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
         КОНТАКТЫ
-        {stateContacts.map(person => Person({
+        {contacts.map(person => Person({
             person,
             isChecked: checkedContacts[`${person.name}${person.phone}`],
             onSelect: (value) => handleSelectContact(`${person.name}${person.phone}`, value),
             group: false
         }))}
         <button onClick={() => setIsOpenCreateGroup(!isOpenCreateGroup)}>Создать группу</button>
-        <CreateGroupModal createGroup={createGroup} list={chosenContactsList} isOpen={isOpenCreateGroup} setShowModal={setIsOpenCreateGroup} />
-        ГРУППЫ
-        <div>{groups.map(group => <div key={group.name}>{group.name}<>{group.list.map(contact => Person({ group: true, person: { ...contact, debt: Math.round(group.sum / group.list.length) }, isChecked: false, onSelect: () => { } }))}</></div>)}</div>
+        <CreateGroupModal id={groups.length + 1} createGroup={createGroup} list={chosenContactsList} isOpen={isOpenCreateGroup} setShowModal={setIsOpenCreateGroup} />
     </div>)
 }
 
-type CreateGroup = {
-    isOpen: Boolean,
-    setShowModal: (e: Boolean) => void,
-    createGroup: (group: Group) => void,
-    list: Contact[]
-}
-
-type Group = {
-    list: Contact[],
-    sum: number,
-    name: string
-}
-
 const CreateGroupModal = (props: CreateGroup) => {
-    const { isOpen, setShowModal, createGroup } = props;
-    const [group, setGroup] = useState({ list: [], name: '', sum: 0 });
+    const { isOpen, setShowModal, createGroup, id } = props;
+    const [group, setGroup] = useState({ list: [], name: '', sum: 0, date: new Date(), id: id, archived: false });
     if (!isOpen) return null;
 
     return (
@@ -148,12 +90,17 @@ const CreateGroupModal = (props: CreateGroup) => {
         </>)
 }
 
-// модалка справа "группа создана, контакт добавлен"
-// таблица с 2 табами контакты + группы
-// можно зайти в группу + кнопка назад пункт 7
-// отметить человека (он перечеркивается вместе с долгом) пункт 8 (наверно кнопку сохранить подсвечивать)
-// архивировать группу как все отдали деньги (еще одно поле у группы) (после кнопки сохранить) зачеркивать и вниз списка переносить - пункт 9
-// дата создания группы, еще одно поле + сортировка по дате пункт 10
-// это понедельник
+
+// 1. поправить 2 столбика чтобы они стали табами
+// 2. все активные группы первее неактивных - пункт 10
+// 3. модалка справа "группа создана, контакт добавлен"
+// 4. подсвечивать кнопку сохранить изменения когда они есть
+// 5. положить все данные в локал сторадж
+// 6. поправить все компоненты + типы
+// 7. начать делать красивый интерфейс
+// 8. подумать мб про оптимизацию
+// 9. линтер
+// это вторник
+
 
 export default List;
