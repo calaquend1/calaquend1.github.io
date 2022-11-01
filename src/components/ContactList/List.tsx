@@ -24,7 +24,7 @@ const List = (): JSX.Element => {
   }
 
   const addPerson = (person: Contact): void => {
-    setContextContacts([...contacts, {...person, id: contacts.length + 1}])
+    setContextContacts([...contacts, { ...person, id: contacts.length + 1 }])
     setIsOpenAddPerson(false)
   }
 
