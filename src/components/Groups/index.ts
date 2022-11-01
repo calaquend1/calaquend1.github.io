@@ -1,5 +1,5 @@
-import Groups from './Groups';
+import Groups from './Groups'
 import { Group } from './types'
 
 export type { Group }
-export default Groups;
+export default Groups

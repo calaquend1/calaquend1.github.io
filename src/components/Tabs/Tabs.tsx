@@ -1,19 +1,19 @@
-import React, { ReactNode, useState } from 'react';
-import './tabs.css';
+import React, { ReactNode, useState } from 'react'
+import './tabs.css'
 
-type TabsProps = {
-    children: ReactNode[]
+interface TabsProps {
+  children: ReactNode[]
 }
 
 enum TabNames {
-    'List' = 0,
-    'Groups' = 1
+  'List' = 0,
+  'Groups' = 1
 }
 
 const Tabs = (props: TabsProps) => {
-    const { children } = props;
-    const [tab, setTab] = useState(TabNames.List)
-    return <div>tabs
+  const { children } = props
+  const [tab, setTab] = useState(TabNames.List)
+  return <div>tabs
         <div className='tabs'>
             <div onClick={() => setTab(TabNames.List)}>Контакты</div>
             <div onClick={() => setTab(TabNames.Groups)}>Группы</div>
