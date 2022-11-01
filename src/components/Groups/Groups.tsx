@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Group } from './types';
 import { Contact } from '../ContactList/types';
 import { groupsContext } from '../../App';
@@ -11,8 +11,13 @@ const GroupsComponent = () => {
 
     const enterGroup = (id: number) => setCurrentGroup(groups[id])
     const leaveGroup = () => setCurrentGroup(null);
-    const [checkedContacts, setCheckedContacts] = useState<CheckedContacts>(
-        currentGroup ? currentGroup.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked }), {}) : {});
+    const [checkedContacts, setCheckedContacts] = useState<CheckedContacts>({});
+
+    useEffect(() => {
+        if (currentGroup) {
+            setCheckedContacts(currentGroup.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked || false }), {}))
+        }
+    }, [currentGroup]);
 
     const saveGroupChanges = (checkedContacts: CheckedContacts) => {
         if (currentGroup) {
@@ -21,6 +26,7 @@ const GroupsComponent = () => {
             const newGroup = { ...currentGroup, list, archived: list.length === list.filter(item => item.isChecked).length };
             newGroups[currentGroup.id - 1] = newGroup
             setGroups(newGroups);
+            leaveGroup();
         }
     }
 
@@ -51,11 +57,13 @@ type CurrentGroupProps = {
     setCheckedContacts: (callback: (value: CheckedContacts) => CheckedContacts) => void | ((value: CheckedContacts) => void)
 }
 
+const isEqualGroups = (a: CheckedContacts, b: CheckedContacts) => JSON.stringify(a) === JSON.stringify(b)
+
 const CurrentGroup = ({ group, saveGroupChanges, checkedContacts, setCheckedContacts }: CurrentGroupProps) => {
     const getPersonProps = (person: Contact) => ({
         group: true,
         isChecked: checkedContacts[person.id] || false,
-        onSelect: (checked: boolean) => setCheckedContacts((checkedContacts) => ({ ...checkedContacts, [person.id]: checked })),
+        onSelect: (checked: boolean) => setCheckedContacts(() => ({ ...checkedContacts, [person.id]: checked })),
         person: {
             ...person,
             debt: Math.round(group.sum / group.list.length)
@@ -64,7 +72,7 @@ const CurrentGroup = ({ group, saveGroupChanges, checkedContacts, setCheckedCont
 
     return <div>
         {group.list.map(contact => Person(getPersonProps(contact)))}
-        <button onClick={() => saveGroupChanges(checkedContacts)}>сохранить изменения</button>
+        {!isEqualGroups(group.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked || false }), {}), checkedContacts) && <button onClick={() => saveGroupChanges(checkedContacts)}>сохранить изменения</button>}
     </div>
 }
 

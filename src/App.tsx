@@ -1,8 +1,8 @@
-import React, {useState, createContext} from 'react';
+import React, { useState, createContext } from 'react';
 import logo from './logo.svg';
-import List, {Contact} from './components/ContactList';
+import List, { Contact } from './components/ContactList';
 import Tabs from './components/Tabs';
-import Groups, {Group} from './components/Groups'
+import Groups, { Group } from './components/Groups'
 import './App.css';
 
 const defaultContacts = [
@@ -13,9 +13,20 @@ const defaultContacts = [
   { name: 'Jennifer', debt: 25, phone: '127', id: 5 },
 ]
 
+const defaultGroups: Group[] = [
+  {
+    list: [defaultContacts[0], defaultContacts[3], defaultContacts[4]],
+    sum: 3000,
+    date: new Date(),
+    name: 'Test group',
+    id: 1,
+    archived: false
+  }
+]
+
 export const contactsContext = createContext({
   contacts: defaultContacts,
-  setContextContacts: (e: Contact[]) => {}
+  setContextContacts: (e: Contact[]) => { }
 });
 
 export type GroupContextType = {
@@ -24,17 +35,17 @@ export type GroupContextType = {
 }
 
 export const groupsContext = createContext<GroupContextType>({
-  groups: [],
-  setGroups: () => {}
+  groups: defaultGroups,
+  setGroups: () => { }
 });
 
 function App() {
-   const [groups, setGroups] = useState<Group[]>([]);
-   const [contacts, setContextContacts] = useState(defaultContacts)
+  const [groups, setGroups] = useState<Group[]>(defaultGroups);
+  const [contacts, setContextContacts] = useState(defaultContacts)
 
   return (
-    <contactsContext.Provider value={{contacts, setContextContacts}}>
-      <groupsContext.Provider value={{groups, setGroups}}>
+    <contactsContext.Provider value={{ contacts, setContextContacts }}>
+      <groupsContext.Provider value={{ groups, setGroups }}>
         <div className="App">
           <Tabs>
             <List />
