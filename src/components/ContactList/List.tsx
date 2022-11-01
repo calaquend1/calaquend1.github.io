@@ -6,11 +6,11 @@ import { contactsContext, groupsContext } from '../../App'
 import { AddPersonModal, CreateGroupModal } from './modals'
 import './list.css'
 
-const GetChosenContactsList = (checkedContacts: { [key: string]: boolean }, contacts: Contact[]) => {
+const GetChosenContactsList = (checkedContacts: { [key: string]: boolean }, contacts: Contact[]): Contact[] => {
   return contacts.filter((contact: Contact) => checkedContacts[`${contact.name}${contact.phone}`])
 }
 
-const List = () => {
+const List = (): JSX.Element => {
   const { contacts, setContextContacts } = useContext(contactsContext)
   const { groups, setGroups } = useContext(groupsContext)
   const [isOpenAddPerson, setIsOpenAddPerson] = useState<Boolean>(false)
@@ -19,16 +19,16 @@ const List = () => {
     .reduce((acc, person) => ({ ...acc, [`${person.name}${person.phone}`]: false }), {}))
   const chosenContactsList = useMemo(() => GetChosenContactsList(checkedContacts, contacts), [checkedContacts, contacts])
 
-  const handleSelectContact = (id: string, value: boolean) => {
+  const handleSelectContact = (id: string, value: boolean): void => {
     setCheckedContacts({ ...checkedContacts, [id]: value })
   }
 
-  const addPerson = (person: Contact) => {
+  const addPerson = (person: Contact): void => {
     setContextContacts([...contacts, person])
     setIsOpenAddPerson(false)
   }
 
-  const createGroup = (group: Group) => {
+  const createGroup = (group: Group): void => {
     setGroups([...groups, { ...group, list: chosenContactsList, date: new Date() }])
     setIsOpenCreateGroup(false)
   }
@@ -51,7 +51,7 @@ const List = () => {
 // 6. поправить все компоненты + типы
 // 7. начать делать красивый интерфейс
 // 8. подумать мб про оптимизацию
-// linter
+// сделать npm run build и пофиксить ошибки какие-то
 // это вторник
 
 export default List

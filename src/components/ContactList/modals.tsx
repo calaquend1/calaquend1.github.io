@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Contact, AddPerson, ModalInpit, CreateGroup } from './types'
+import { AddPerson, ModalInpit, CreateGroup } from './types'
 
 export const ModalInput = (props: ModalInpit) => {
   const { text, onChange } = props
