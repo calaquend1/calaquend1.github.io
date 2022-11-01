@@ -1,9 +1,18 @@
 import React, { useState, createContext } from 'react';
-import logo from './logo.svg';
 import List, { Contact } from './components/ContactList';
 import Tabs from './components/Tabs';
 import Groups, { Group } from './components/Groups'
 import './App.css';
+
+type LocalStorageSetKey = 'Groups' | 'Contacts'
+
+function setLocalStorage<T>(key: LocalStorageSetKey, value: T[]) {
+  window.localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getLocalStorage<T>(key: LocalStorageSetKey): T[] {
+  return JSON.parse(window.localStorage.getItem(key) || JSON.stringify([]));
+}
 
 const defaultContacts = [
   { name: 'Michael', debt: 35, phone: '123', id: 1 },
@@ -17,9 +26,33 @@ const defaultGroups: Group[] = [
   {
     list: [defaultContacts[0], defaultContacts[3], defaultContacts[4]],
     sum: 3000,
-    date: new Date(),
-    name: 'Test group',
+    date: new Date('Nov 1, 2022'),
+    name: 'Test group archived 2 #2',
+    id: 3,
+    archived: true
+  },
+  {
+    list: [defaultContacts[0], defaultContacts[1], defaultContacts[3], defaultContacts[4]],
+    sum: 3000,
+    date: new Date('Nov 3, 2022'),
+    name: 'Test group #3',
     id: 1,
+    archived: true
+  },
+  {
+    list: [defaultContacts[0]],
+    sum: 3000,
+    date: new Date('Sep 2, 2022'),
+    name: 'Test group #0',
+    id: 2,
+    archived: false
+  },
+  {
+    list: [defaultContacts[0], defaultContacts[3]],
+    sum: 3000,
+    date: new Date('Nov 2, 2022'),
+    name: 'Test group archived #1',
+    id: 4,
     archived: false
   }
 ]
@@ -40,12 +73,22 @@ export const groupsContext = createContext<GroupContextType>({
 });
 
 function App() {
-  const [groups, setGroups] = useState<Group[]>(defaultGroups);
-  const [contacts, setContextContacts] = useState(defaultContacts)
+  const [, setGroups] = useState<Group[]>(getLocalStorage('Groups'));
+  const [, setContextContacts] = useState<Contact[]>(getLocalStorage('Contacts'))
 
   return (
-    <contactsContext.Provider value={{ contacts, setContextContacts }}>
-      <groupsContext.Provider value={{ groups, setGroups }}>
+    <contactsContext.Provider value={{
+      contacts: getLocalStorage('Contacts'), setContextContacts: (contacts: Contact[]) => {
+        setContextContacts(contacts);
+        setLocalStorage('Contacts', contacts);
+      }
+    }}>
+      <groupsContext.Provider value={{
+        groups: getLocalStorage('Groups'), setGroups: (groups: Group[]) => {
+          setGroups(groups);
+          setLocalStorage('Groups', groups);
+        }
+      }}>
         <div className="App">
           <Tabs>
             <List />

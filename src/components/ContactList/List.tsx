@@ -38,7 +38,7 @@ const GetChosenContactsList = (checkedContacts: { [key: string]: boolean }, cont
 const List = () => {
     const { contacts, setContextContacts } = useContext(contactsContext);
     const { groups, setGroups } = useContext(groupsContext)
-
+    console.log(contacts, 'cont')
     const [isOpenAddPerson, setIsOpenAddPerson] = useState<Boolean>(false);
     const [isOpenCreateGroup, setIsOpenCreateGroup] = useState<Boolean>(false);
     const [checkedContacts, setCheckedContacts] = useState<{ [key: string]: boolean }>(contacts
@@ -90,15 +90,11 @@ const CreateGroupModal = (props: CreateGroup) => {
         </>)
 }
 
-
-// 1. поправить 2 столбика чтобы они стали табами
-// 2. все активные группы первее неактивных - пункт 10
 // 3. модалка справа "группа создана, контакт добавлен"
-// 5. положить все данные в локал сторадж
 // 6. поправить все компоненты + типы
 // 7. начать делать красивый интерфейс
 // 8. подумать мб про оптимизацию
-// 9. линтер
+// 9. пройтись по всем файлам и сделать линт
 // это вторник
 
 
