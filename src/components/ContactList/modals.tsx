@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AddPerson, ModalInpit, CreateGroup } from './types'
 
-export const ModalInput = (props: ModalInpit) => {
+export const ModalInput = (props: ModalInpit): JSX.Element => {
   const { text, onChange } = props
   return <>
         <p>{text}</p>
@@ -9,7 +9,7 @@ export const ModalInput = (props: ModalInpit) => {
     </>
 }
 
-export const AddPersonModal = (props: AddPerson) => {
+export const AddPersonModal = (props: AddPerson): JSX.Element | null => {
   const { isOpen, setShowModal, addPerson, id } = props
   const [person, setPerson] = useState({ name: '', phone: '', debt: 0, id })
   if (!isOpen) return null
@@ -27,7 +27,7 @@ export const AddPersonModal = (props: AddPerson) => {
         </>)
 }
 
-export const CreateGroupModal = (props: CreateGroup) => {
+export const CreateGroupModal = (props: CreateGroup): JSX.Element | null => {
   const { isOpen, setShowModal, createGroup, id } = props
   const [group, setGroup] = useState({ list: [], name: '', sum: 0, date: new Date(), id, archived: false })
   if (!isOpen) return null

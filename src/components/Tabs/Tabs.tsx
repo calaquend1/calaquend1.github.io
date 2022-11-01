@@ -10,7 +10,7 @@ enum TabNames {
   'Groups' = 1
 }
 
-const Tabs = (props: TabsProps) => {
+const Tabs = (props: TabsProps): JSX.Element => {
   const { children } = props
   const [tab, setTab] = useState(TabNames.List)
   return <div>tabs
