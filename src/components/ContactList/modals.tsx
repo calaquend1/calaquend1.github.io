@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AddPerson, ModalInpit, CreateGroup } from './types'
+import { AddPerson, ModalInpit, CreateGroup, Contact } from './types'
 
 export const ModalInput = (props: ModalInpit): JSX.Element => {
   const { text, onChange } = props
@@ -10,8 +10,8 @@ export const ModalInput = (props: ModalInpit): JSX.Element => {
 }
 
 export const AddPersonModal = (props: AddPerson): JSX.Element | null => {
-  const { isOpen, setShowModal, addPerson, id } = props
-  const [person, setPerson] = useState({ name: '', phone: '', debt: 0, id })
+  const { isOpen, setShowModal, addPerson } = props
+  const [person, setPerson] = useState({ name: '', phone: '', debt: 0 })
   if (!isOpen) return null
 
   return (
@@ -21,7 +21,7 @@ export const AddPersonModal = (props: AddPerson): JSX.Element | null => {
                 <ModalInput text='введите имя' onChange={(e) => setPerson({ ...person, name: e.target.value })} />
                 <ModalInput text='введите телефон' onChange={(e) => setPerson({ ...person, phone: e.target.value })} />
                 <ModalInput text='введите сумму долга' onChange={(e) => setPerson({ ...person, debt: Number(e.target.value) })} />
-                <button onClick={() => addPerson(person)}>добавьте контакт</button>
+                <button onClick={() => addPerson(person as Contact)}>добавьте контакт</button>
                 <button onClick={() => setShowModal(false)}>close modal</button>
             </div>
         </>)

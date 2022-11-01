@@ -25,7 +25,6 @@ export interface AddPerson {
   isOpen: Boolean
   setShowModal: (e: Boolean) => void
   addPerson: (person: Contact) => void
-  id: number
 }
 
 export interface ModalInpit {

@@ -24,7 +24,7 @@ const List = (): JSX.Element => {
   }
 
   const addPerson = (person: Contact): void => {
-    setContextContacts([...contacts, person])
+    setContextContacts([...contacts, {...person, id: contacts.length + 1}])
     setIsOpenAddPerson(false)
   }
 
@@ -34,7 +34,7 @@ const List = (): JSX.Element => {
   }
   return (<div>
         <button onClick={() => setIsOpenAddPerson(!isOpenAddPerson)}>добавить контакт</button>
-        <AddPersonModal id={contacts.length + 1} addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
+        <AddPersonModal addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
         КОНТАКТЫ
         {contacts.map(person => Person({
           person,
