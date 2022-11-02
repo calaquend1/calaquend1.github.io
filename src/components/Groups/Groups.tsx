@@ -33,17 +33,23 @@ const GroupsComponent = (): JSX.Element => {
   }
 
   return <div>
-        <div>groups</div>
+    <h2>Groups</h2>
 
-        {(currentGroup == null) && <ul>
-            {groups.sort(sortGroups).map((group) => <li className={group.archived ? 'archived' : ''} key={group.name} onClick={() => enterGroup(group.id)} >{group.name}</li>)}
-        </ul>}
-        {(currentGroup != null) &&
-            <div>
-                <button onClick={leaveGroup}>назад</button>
-                <div key={currentGroup.name}>{currentGroup.name}{CurrentGroup({ group: currentGroup, saveGroupChanges, checkedContacts, setCheckedContacts })}</div>
-            </div>}
-    </div>
+    {(!currentGroup) && <ul>
+      {groups.sort(sortGroups).map((group) =>
+        <article key={group.name} onClick={() => enterGroup(group.id)} className={`listelement__profile ${group.archived ? 'archived' : ''}`}>
+          <span className="listelement__name">Name: {group.name}</span>
+          <span className="listelement__value">Number of people: {group.list.length}</span>
+          <span className="listelement__value">Debt: {group.sum}</span>
+        </article>
+      )}
+    </ul>}
+    {(currentGroup != null) &&
+      <><div className="currentGroup"><a onClick={leaveGroup} href="#" className="previous round">&#8249;</a><h3>This is the group {currentGroup.name}</h3></div>
+        {CurrentGroup({ group: currentGroup, saveGroupChanges, checkedContacts, setCheckedContacts })}
+      </>
+    }
+  </div>
 }
 
 const CurrentGroup = ({ group, saveGroupChanges, checkedContacts, setCheckedContacts }: CurrentGroupProps): JSX.Element => {
@@ -53,13 +59,13 @@ const CurrentGroup = ({ group, saveGroupChanges, checkedContacts, setCheckedCont
     onSelect: (checked: boolean) => setCheckedContacts(() => ({ ...checkedContacts, [person.id]: checked })),
     person: {
       ...person,
-      debt: Math.round(group.sum / group.list.length)
+      debt: Math.round((group.sum / group.list.length) * 100) / 100
     }
   })
   return <div>
-        {group.list.map(contact => Person(getPersonProps(contact)))}
-        {!isEqualGroups(group.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked ?? false }), {}), checkedContacts) && <button onClick={() => saveGroupChanges(checkedContacts)}>сохранить изменения</button>}
-    </div>
+    {group.list.map(contact => Person(getPersonProps(contact)))}
+    {<button disabled={isEqualGroups(group.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked ?? false }), {}), checkedContacts)} className="button-save" onClick={() => saveGroupChanges(checkedContacts)}>Save Changes</button>}
+  </div>
 }
 
 export default GroupsComponent

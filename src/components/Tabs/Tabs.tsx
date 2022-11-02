@@ -29,8 +29,8 @@ const Tabs = (props: TabsProps): JSX.Element => {
   const variableForGradient = (mousePos.x / window.screen.width) * 100
   return <div>
         <div className='tabs' style={{ background: `linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) ${variableForGradient}%, rgba(0,212,255,1) 100%)` }}>
-            <div onClick={() => setTab(TabNames.List)}>Contacts</div>
-            <div onClick={() => setTab(TabNames.Groups)}>Groups</div>
+            <div className={tab === TabNames.List ? 'checkedTab' : ''} onClick={() => setTab(TabNames.List)}>Contacts</div>
+            <div className={tab === TabNames.Groups ? 'checkedTab' : ''} onClick={() => setTab(TabNames.Groups)}>Groups</div>
         </div>
         <div>{children[tab]}</div>
     </div>

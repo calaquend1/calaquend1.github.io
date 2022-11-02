@@ -9,6 +9,7 @@
 }
 
 .modal {
+    z-index: 1;
     position: absolute;
     width: 500px;
     border-radius: 10px;
@@ -22,3 +23,117 @@
 .checked {
     text-decoration: line-through;
 }
+
+.person {
+    display: grid;
+}
+
+.person div {
+    padding: 15px;
+    margin: auto;
+    display: flex;
+}
+.listelement {
+    box-shadow: 0 0 40px -10px rgba(0, 0, 0, .4);
+}
+
+.listelement__profile {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  align-items: center;
+  padding: 10px 30px 10px 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
+  background-color: #fff;
+  margin: 5px 100px;
+}
+
+.listelement__profile:hover {
+  transform: scale(1.2);
+  box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+}
+
+.listelement__profiles {
+  background-color: #fff;
+  border-radius: 0 0 12px 12px;
+  padding: 15px 15px 20px;
+  display: grid;
+  row-gap: 8px;
+}
+
+.listelement__picture {
+  max-width: 100%;
+  width: 60px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
+}
+
+.listelement__name {
+  color: #979cb0;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.64px;
+  margin-left: 12px;
+}
+
+.listelement_value {
+    color: #35d8ac;
+    font-weight: 700;
+    font-size: 34px;
+    text-align: right; 
+}
+
+.listelement_value > span {
+  opacity: .8;
+  font-weight: 600;
+  font-size: 13px;
+  margin-left: 3px;
+}
+
+.listelement {
+  max-width: 490px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.listelement__title span {
+  display: block;
+}
+
+.listelement__title--top {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 6.5px;
+}
+
+.listelement__title--bottom {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3.55px;
+  opacity: .65;
+  transform: translateY(-2px);
+}
+
+  .listelement__title {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: calc(var(--start) * .75);
+    transform: translateY(-50%);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .listelement__icon {
+    fill: #fff;
+    opacity: .35;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: var(--start);
+    transform: translate(-50%, -50%);
+  }

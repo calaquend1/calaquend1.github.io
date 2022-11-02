@@ -5,8 +5,6 @@
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     padding: 40px;
-    background: linear-gradient(to left, #743ad5, #d53a9d);
-    background: rgb(2,0,36);
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 20%, rgba(0,212,255,1) 100%);
 }
 
@@ -17,11 +15,14 @@
     border: 5px solid;
     font-size: 1.5rem;
     padding: 1rem 2rem;
-    background: black;
     color: white;
     user-select: none;
 }
 
 .tabs div:hover {
     border-color: #2193b0;
+}
+
+.checkedTab {
+    background: linear-gradient(to left, #743ad5, #d53a9d);
 }
