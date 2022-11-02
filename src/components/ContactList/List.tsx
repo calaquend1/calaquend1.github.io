@@ -1,12 +1,12 @@
-import React, { useState, useMemo, useContext } from 'react'
+import React, { useState, useMemo, useContext, useEffect } from 'react'
 import { Contact } from './types'
-import { Group } from '../Groups/types'
+import { Group, CheckedContacts } from '../Groups/types'
 import Person from './Person'
 import { contactsContext, groupsContext } from '../../App'
 import { AddPersonModal, CreateGroupModal } from './modals'
 import './list.css'
 
-const GetChosenContactsList = (checkedContacts: { [key: string]: boolean }, contacts: Contact[]): Contact[] => {
+const GetChosenContactsList = (checkedContacts: CheckedContacts, contacts: Contact[]): Contact[] => {
   return contacts.filter((contact: Contact) => checkedContacts[`${contact.name}${contact.phone}`])
 }
 
@@ -15,9 +15,13 @@ const List = (): JSX.Element => {
   const { groups, setGroups } = useContext(groupsContext)
   const [isOpenAddPerson, setIsOpenAddPerson] = useState<Boolean>(false)
   const [isOpenCreateGroup, setIsOpenCreateGroup] = useState<Boolean>(false)
-  const [checkedContacts, setCheckedContacts] = useState<{ [key: string]: boolean }>(contacts
+  const [checkedContacts, setCheckedContacts] = useState<CheckedContacts>(contacts
     .reduce((acc, person) => ({ ...acc, [`${person.name}${person.phone}`]: false }), {}))
   const chosenContactsList = useMemo(() => GetChosenContactsList(checkedContacts, contacts), [checkedContacts, contacts])
+
+  useEffect(() => {
+    setCheckedContacts(contacts.reduce((acc, person) => ({ ...acc, [`${person.name}${person.phone}`]: false }), {}))
+  }, [contacts])
 
   const handleSelectContact = (id: string, value: boolean): void => {
     setCheckedContacts({ ...checkedContacts, [id]: value })
@@ -26,6 +30,7 @@ const List = (): JSX.Element => {
   const addPerson = (person: Contact): void => {
     setContextContacts([...contacts, { ...person, id: contacts.length + 1 }])
     setIsOpenAddPerson(false)
+    resetCheckedContacts()
   }
 
   const resetCheckedContacts = (): void => setCheckedContacts(contacts.reduce((acc, person) => ({ ...acc, [`${person.name}${person.phone}`]: false }), {}))
@@ -35,6 +40,7 @@ const List = (): JSX.Element => {
     setIsOpenCreateGroup(false)
     resetCheckedContacts()
   }
+
   return (<div>
         <h2>Contacts</h2>
         {contacts.map(person => Person({
@@ -48,18 +54,17 @@ const List = (): JSX.Element => {
           <button disabled={chosenContactsList.length === 0} className="button-save" onClick={() => setIsOpenCreateGroup(!isOpenCreateGroup)}>Create Group</button>
         </div>
         <div className='modals'>
-          <AddPersonModal addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
+          <AddPersonModal contacts={checkedContacts} addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
           <CreateGroupModal id={groups.length + 1} createGroup={createGroup} list={chosenContactsList} isOpen={isOpenCreateGroup} setShowModal={setIsOpenCreateGroup} />
         </div>
       </div>)
 }
 
-// 1.5 модалки норм сделать
-// 4. подумать мб про оптимизацию пункт 11
-// 5. модалка справа "группа создана, контакт добавлен" пункт 11
-// 6. написать несколько тестов пункт 1
-// 8. написать readme как запустить пункт 15
-// 9. кинуть код к ним пункт 13 (проверить, можно ли открыть статик сайт из ветки gh pages на компе)+ поддерживать у себя и тестить на гитхаб пейджес пункт 14
-// это среда
+// 1. написать несколько тестов (добавление 2 контактов + добавление 1 группы + переход в эту группу + закрыть 1 человека в группе)
+// 2. модалка справа "группа создана, контакт добавлен" пункт 11
+// 3. подумать мб про оптимизацию (useMemo? reactmemo?)
+// 4. кинуть код к ним пункт 13 30 минут в конце
+// 5. поддерживать у себя и тестить на гитхаб пейджес пункт 14 автоматом, делать ничего не надо, 30 минут в конце посмотреть работает ли код
+// это четверг
 
 export default List

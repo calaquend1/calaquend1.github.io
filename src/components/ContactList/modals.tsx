@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { AddPerson, ModalInpit, CreateGroup, Contact } from './types'
 import './list.css'
+import '../Groups/group.css'
 
 export const ModalInput = (props: ModalInpit): JSX.Element => {
   const { text, onChange } = props
@@ -11,19 +12,26 @@ export const ModalInput = (props: ModalInpit): JSX.Element => {
 }
 
 export const AddPersonModal = (props: AddPerson): JSX.Element | null => {
-  const { isOpen, setShowModal, addPerson } = props
+  const { isOpen, setShowModal, addPerson, contacts } = props
   const [person, setPerson] = useState({ name: '', phone: '', debt: 0 })
   if (!isOpen) return null
-
   return (
         <>
             <div className="modal-backdrop" onClick={() => setShowModal(false)}></div>
             <div className="modal">
-                <ModalInput text='введите имя' onChange={(e) => setPerson({ ...person, name: e.target.value })} />
-                <ModalInput text='введите телефон' onChange={(e) => setPerson({ ...person, phone: e.target.value })} />
-                <ModalInput text='введите сумму долга' onChange={(e) => setPerson({ ...person, debt: Number(e.target.value) })} />
-                <button onClick={() => addPerson(person as Contact)}>добавьте контакт</button>
-                <button onClick={() => setShowModal(false)}>close modal</button>
+                <ModalInput text='Name' onChange={(e) => setPerson({ ...person, name: e.target.value })} />
+                <ModalInput text='Phone' onChange={(e) => setPerson({ ...person, phone: e.target.value })} />
+                <ModalInput text='Debt' onChange={(e) => setPerson({ ...person, debt: Number(e.target.value) })} />
+                <div className='buttons'>
+                    <button
+                        disabled={!(contacts[`${person.name}${person.phone}`] !== false && person.name && person.phone)}
+                        className='button-save' onClick={() => {
+                          addPerson(person as Contact)
+                          setPerson({ name: '', phone: '', debt: 0 })
+                        }}
+                    >Add Contact</button>
+                    <button className='button-save' onClick={() => setShowModal(false)}>Close modal</button>
+                </div>
             </div>
         </>)
 }
@@ -37,10 +45,12 @@ export const CreateGroupModal = (props: CreateGroup): JSX.Element | null => {
         <>
             <div className="modal-backdrop" onClick={() => setShowModal(false)}></div>
             <div className="modal">
-                <ModalInput text='введите название группы' onChange={(e) => setGroup({ ...group, name: e.target.value })} />
-                <ModalInput text='введите сумму долга' onChange={(e) => setGroup({ ...group, sum: Number(e.target.value) })} />
-                <button onClick={() => createGroup(group)}>Добавьте группу</button>
-                <button onClick={() => setShowModal(false)}>close modal</button>
+                <ModalInput text='Group Name' onChange={(e) => setGroup({ ...group, name: e.target.value })} />
+                <ModalInput text='Group Debt' onChange={(e) => setGroup({ ...group, sum: Number(e.target.value) })} />
+                <div className='buttons'>
+                    <button className='button-save' disabled={!(group.name && group.sum)} onClick={() => createGroup(group)}>Create Group</button>
+                    <button className='button-save' onClick={() => setShowModal(false)}>Close modal</button>
+                </div>
             </div>
         </>)
 }

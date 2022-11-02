@@ -1,4 +1,4 @@
-import { Group } from '../Groups/types'
+import { CheckedContacts, Group } from '../Groups/types'
 
 export interface Contact {
   name: string
@@ -24,7 +24,8 @@ export interface ListProps {
 export interface AddPerson {
   isOpen: Boolean
   setShowModal: (e: Boolean) => void
-  addPerson: (person: Contact) => void
+  addPerson: (person: Contact) => void,
+  contacts: CheckedContacts
 }
 
 export interface ModalInpit {

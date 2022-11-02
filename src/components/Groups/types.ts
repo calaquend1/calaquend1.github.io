@@ -10,7 +10,7 @@ export interface Group {
 }
 
 export interface CheckedContacts {
-  [key: number]: boolean
+  [key: string]: boolean
 }
 
 export interface CurrentGroupProps {

@@ -15,9 +15,10 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
-    background: blue;
+    background: linear-gradient(to left, #d53a9d, #743ad5);
     left: 0px;
     right: 0px;
+    color: white;
 }
 
 .checked {
@@ -44,7 +45,7 @@
 .listelement__profile {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding: 10px 30px 10px 10px;
   overflow: hidden;
@@ -54,6 +55,8 @@
   transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
   background-color: #fff;
   margin: 5px 150px;
+  align-items: center;
+  justify-items: center;
 }
 
 .listelement__profile:hover {
@@ -84,11 +87,11 @@
   margin-left: 12px;
 }
 
-.listelement_value {
+.listelement__value {
     color: #35d8ac;
-    font-weight: 700;
-    font-size: 34px;
-    text-align: right; 
+    font-weight: 600;
+    font-size: 20px;
+    text-align: right;
 }
 
 .listelement_value > span {
