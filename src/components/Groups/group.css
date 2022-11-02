@@ -53,7 +53,9 @@ a:hover {
   vertical-align: middle;
   white-space: nowrap;
   word-wrap: break-word;
-  margin-top: 10px;
+  margin: 10px;
+  height: 34px;
+  width: 125px;
 }
 
 .button-save:hover {

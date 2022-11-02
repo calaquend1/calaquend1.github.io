@@ -1,8 +1,8 @@
 .modal-backdrop {
     position: absolute;
-    top: 0;
+    top: -10vh;
     left: 0;
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     transition: opacity 1.2s ease;
     backdrop-filter: blur(2px);
@@ -22,6 +22,10 @@
 
 .checked {
     text-decoration: line-through;
+}
+
+.listChecked article {
+  background-color: green;
 }
 
 .person {
@@ -49,7 +53,7 @@
   cursor: pointer;
   transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
   background-color: #fff;
-  margin: 5px 100px;
+  margin: 5px 150px;
 }
 
 .listelement__profile:hover {
@@ -118,22 +122,35 @@
   transform: translateY(-2px);
 }
 
-  .listelement__title {
-    position: absolute;
-    z-index: 2;
-    top: 50%;
-    right: calc(var(--start) * .75);
-    transform: translateY(-50%);
-    text-transform: uppercase;
-    margin: 0;
-  }
+.listelement__title {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: calc(var(--start) * .75);
+  transform: translateY(-50%);
+  text-transform: uppercase;
+  margin: 0;
+}
 
-  .listelement__icon {
-    fill: #fff;
-    opacity: .35;
-    width: 50px;
-    position: absolute;
-    top: 50%;
-    left: var(--start);
-    transform: translate(-50%, -50%);
-  }
+.listelement__icon {
+  fill: #fff;
+  opacity: .35;
+  width: 50px;
+  position: absolute;
+  top: 50%;
+  left: var(--start);
+  transform: translate(-50%, -50%);
+}
+
+.listelement__name  {
+  width: max-content;
+}
+
+.modals {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 10%;
+}

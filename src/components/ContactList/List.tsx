@@ -28,27 +28,32 @@ const List = (): JSX.Element => {
     setIsOpenAddPerson(false)
   }
 
+  const resetCheckedContacts = (): void => setCheckedContacts(contacts.reduce((acc, person) => ({ ...acc, [`${person.name}${person.phone}`]: false }), {}))
+
   const createGroup = (group: Group): void => {
     setGroups([...groups, { ...group, list: chosenContactsList, date: new Date() }])
     setIsOpenCreateGroup(false)
+    resetCheckedContacts()
   }
   return (<div>
-        <button onClick={() => setIsOpenAddPerson(!isOpenAddPerson)}>добавить контакт</button>
-        <AddPersonModal addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
-        Contacts
+        <h2>Contacts</h2>
         {contacts.map(person => Person({
           person,
           isChecked: checkedContacts[`${person.name}${person.phone}`],
           onSelect: (value) => handleSelectContact(`${person.name}${person.phone}`, value),
           group: false
         }))}
-        <button onClick={() => setIsOpenCreateGroup(!isOpenCreateGroup)}>Создать группу</button>
-        <CreateGroupModal id={groups.length + 1} createGroup={createGroup} list={chosenContactsList} isOpen={isOpenCreateGroup} setShowModal={setIsOpenCreateGroup} />
-    </div>)
+        <div className='buttons'>
+          <button className="button-save" onClick={() => setIsOpenAddPerson(!isOpenAddPerson)}>Add Contact</button>
+          <button disabled={chosenContactsList.length === 0} className="button-save" onClick={() => setIsOpenCreateGroup(!isOpenCreateGroup)}>Create Group</button>
+        </div>
+        <div className='modals'>
+          <AddPersonModal addPerson={addPerson} isOpen={isOpenAddPerson} setShowModal={setIsOpenAddPerson} />
+          <CreateGroupModal id={groups.length + 1} createGroup={createGroup} list={chosenContactsList} isOpen={isOpenCreateGroup} setShowModal={setIsOpenCreateGroup} />
+        </div>
+      </div>)
 }
 
-// 1.3 контакты интерфейс
-// 1.4 кнопки норм покрасить
 // 1.5 модалки норм сделать
 // 4. подумать мб про оптимизацию пункт 11
 // 5. модалка справа "группа создана, контакт добавлен" пункт 11

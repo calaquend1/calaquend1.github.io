@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { AddPerson, ModalInpit, CreateGroup, Contact } from './types'
+import './list.css'
 
 export const ModalInput = (props: ModalInpit): JSX.Element => {
   const { text, onChange } = props
