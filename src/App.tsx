@@ -14,7 +14,7 @@ function getLocalStorage<T> (key: LocalStorageSetKey): T[] {
   return JSON.parse(window.localStorage.getItem(key) ?? JSON.stringify([]))
 }
 
-const defaultContacts = [
+export const defaultContacts = [
   { name: 'Michael', debt: 35, phone: '123', id: 1 },
   { name: 'John', debt: 37, phone: '124', id: 2 },
   { name: 'Lily', debt: 42, phone: '125', id: 3 },
@@ -61,7 +61,7 @@ export interface ContactContextType {
   setContextContacts: (e: Contact[]) => void
 }
 
-export const contactsContext = createContext<ContactContextType>({
+export const ContactsContext = createContext<ContactContextType>({
   contacts: [],
   setContextContacts: (e: Contact[]) => { }
 })
@@ -71,38 +71,38 @@ export interface GroupContextType {
   setGroups: (e: Group[]) => void
 }
 
-export const groupsContext = createContext<GroupContextType>({
+export const GroupsContext = createContext<GroupContextType>({
   groups: [],
   setGroups: () => { }
 })
 
-const App = (): JSX.Element => {
+const App = (): React.ReactElement => {
   const [, setGroups] = useState<Group[]>(getLocalStorage('Groups'))
   const [, setContextContacts] = useState<Contact[]>(getLocalStorage('Contacts'))
 
   return (
-    <contactsContext.Provider value={{
+    <ContactsContext.Provider value={{
       contacts: getLocalStorage('Contacts'),
       setContextContacts: (contacts: Contact[]) => {
         setContextContacts(contacts)
         setLocalStorage('Contacts', contacts)
       }
     }}>
-      <groupsContext.Provider value={{
+      <GroupsContext.Provider value={{
         groups: getLocalStorage('Groups'),
         setGroups: (groups: Group[]) => {
           setGroups(groups)
           setLocalStorage('Groups', groups)
         }
       }}>
-        <div className="App">
+        <div data-testid="App" className="App">
           <Tabs>
             <List />
             <Groups />
           </Tabs>
         </div>
-      </groupsContext.Provider>
-    </contactsContext.Provider>
+      </GroupsContext.Provider>
+    </ContactsContext.Provider>
 
   )
 }

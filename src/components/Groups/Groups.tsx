@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Group, CheckedContacts } from './types'
-import { groupsContext } from '../../App'
+import { GroupsContext } from '../../App'
 import { sortGroups } from './helpers'
 import { CurrentGroup } from './CurrentGroup'
 import './group.css'
 
 const GroupsComponent = (): JSX.Element => {
-  const { groups, setGroups } = useContext(groupsContext)
+  const { groups, setGroups } = useContext(GroupsContext)
   const [currentGroup, setCurrentGroup] = useState<Group | null>()
 
   const enterGroup = (id: number): void => setCurrentGroup(groups.find(group => group.id === id))
@@ -36,7 +36,7 @@ const GroupsComponent = (): JSX.Element => {
 
     {(!currentGroup) && <ul>
       {groups.sort(sortGroups).map((group) =>
-        <article key={group.name} onClick={() => enterGroup(group.id)} className={`listelement__profile ${group.archived ? 'archived' : ''}`}>
+        <article data-testid={`group-${group.name}`} key={group.name} onClick={() => enterGroup(group.id)} className={`listelement__profile ${group.archived ? 'archived' : ''}`}>
           <span className="listelement__name">Name: {group.name}</span>
           <span className="listelement__value">Number of people: {group.list.length}</span>
           <span className="listelement__value">Debt: {group.sum}</span>

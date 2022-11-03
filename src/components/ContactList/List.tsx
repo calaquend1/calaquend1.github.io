@@ -2,7 +2,7 @@ import React, { useState, useMemo, useContext, useEffect } from 'react'
 import { Contact } from './types'
 import { Group, CheckedContacts } from '../Groups/types'
 import Person from './Person'
-import { contactsContext, groupsContext } from '../../App'
+import { ContactsContext, GroupsContext } from '../../App'
 import { AddPersonModal, CreateGroupModal } from './modals'
 import './list.css'
 
@@ -11,8 +11,8 @@ const GetChosenContactsList = (checkedContacts: CheckedContacts, contacts: Conta
 }
 
 const List = (): JSX.Element => {
-  const { contacts, setContextContacts } = useContext(contactsContext)
-  const { groups, setGroups } = useContext(groupsContext)
+  const { contacts, setContextContacts } = useContext(ContactsContext)
+  const { groups, setGroups } = useContext(GroupsContext)
   const [isOpenAddPerson, setIsOpenAddPerson] = useState<Boolean>(false)
   const [isOpenCreateGroup, setIsOpenCreateGroup] = useState<Boolean>(false)
   const [checkedContacts, setCheckedContacts] = useState<CheckedContacts>(contacts
@@ -60,8 +60,6 @@ const List = (): JSX.Element => {
       </div>)
 }
 
-// 1. написать несколько тестов (добавление 2 контактов + добавление 1 группы + переход в эту группу + закрыть 1 человека в группе)
-// 2. модалка справа "группа создана, контакт добавлен" пункт 11
 // 3. подумать мб про оптимизацию (useMemo? reactmemo?)
 // 4. кинуть код к ним пункт 13 30 минут в конце
 // 5. поддерживать у себя и тестить на гитхаб пейджес пункт 14 автоматом, делать ничего не надо, 30 минут в конце посмотреть работает ли код

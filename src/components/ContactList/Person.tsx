@@ -7,7 +7,7 @@ const Person = (props: PersonProps): JSX.Element => {
 
   const className = `person ${group && isChecked ? 'checked' : ''} ${!group && isChecked ? 'listChecked' : ''}`
   const style = { gridTemplateColumns: group ? '1fr 1fr 1fr' : '1fr 1fr' }
-  return <div onClick={() => onSelect(!isChecked)} className={className} key={`${person?.name}-${person?.phone}`}>
+  return <div data-testid={`contact${person.name}`} onClick={() => onSelect(!isChecked)} className={className} key={`${person?.name}-${person?.phone}`}>
     <article className="listelement__profile" style={style}>
       <span className="listelement__name">Name: {person.name}</span>
       <span className="listelement__value">Phone: {person.phone}</span>

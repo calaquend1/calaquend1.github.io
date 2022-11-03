@@ -17,6 +17,6 @@ export const CurrentGroup = ({ group, saveGroupChanges, checkedContacts, setChec
   })
   return <div>
         {group.list.map(contact => Person(getPersonProps(contact)))}
-        {<button disabled={isEqualGroups(group.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked ?? false }), {}), checkedContacts)} className="button-save" onClick={() => saveGroupChanges(checkedContacts)}>Save Changes</button>}
+        {<button data-testid="saveChangesInGroup" disabled={isEqualGroups(group.list.reduce((acc, cur) => ({ ...acc, [cur.id]: cur.isChecked ?? false }), {}), checkedContacts)} className="button-save" onClick={() => saveGroupChanges(checkedContacts)}>Save Changes</button>}
     </div>
 }

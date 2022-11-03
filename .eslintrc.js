@@ -18,6 +18,7 @@ module.exports = {
     'react'
   ],
   rules: {
-    "@typescript-eslint/strict-boolean-expressions": 0
+    "@typescript-eslint/strict-boolean-expressions": 0,
+    "no-boolean-literal-compare": 0
   }
 }
