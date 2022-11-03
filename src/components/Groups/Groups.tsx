@@ -31,18 +31,17 @@ const GroupsComponent = (): JSX.Element => {
     }
   }
 
-  return <div>
+  return <div style={{ display: 'grid' }}>
     <h2>Groups</h2>
 
-    {(!currentGroup) && <ul>
-      {groups.sort(sortGroups).map((group) =>
+    {(!currentGroup) &&
+      groups.sort(sortGroups).map((group) =>
         <article data-testid={`group-${group.name}`} key={group.name} onClick={() => enterGroup(group.id)} className={`listelement__profile ${group.archived ? 'archived' : ''}`}>
           <span className="listelement__name">Name: {group.name}</span>
           <span className="listelement__value">Number of people: {group.list.length}</span>
           <span className="listelement__value">Debt: {group.sum}</span>
         </article>
       )}
-    </ul>}
     {(currentGroup != null) &&
       <><div className="currentGroup"><a onClick={leaveGroup} href="#" className="previous round">&#8249;</a><h3>This is the group {currentGroup.name}</h3></div>
         {CurrentGroup({ group: currentGroup, saveGroupChanges, checkedContacts, setCheckedContacts })}
