@@ -1,0 +1,54 @@
+.videoplayer-container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    align-content: space-around;
+    justify-items: center;
+}
+
+.controls {
+    height: 20px;
+    cursor: pointer;
+    bottom: 39%;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.interval {
+    left: 64%;
+    font-size: 12px;
+    color: white;
+}
+
+.playpause {
+    width: 20px;
+    left: 31.5%;
+}
+
+.play {
+    background: rgba(133, 132, 132, 0.5);
+}
+
+.pause {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+#screen {
+    position: relative;
+    margin: 20px 0;
+    border-radius: 50% / 40px;
+    color: white;
+    text-align: center;
+    text-indent: .1em;
+  }
+#screen:before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    right: -5%;
+    left: -5%;
+    background: inherit;
+    border-radius: 5% / 50%;
+}
