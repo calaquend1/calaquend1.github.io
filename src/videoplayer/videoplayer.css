@@ -15,14 +15,15 @@
 }
 
 .interval {
-    left: 64%;
+    left: calc(50vw + 150px);
     font-size: 12px;
-    color: white;
+    font-weight: 900;
+    color: black;
 }
 
 .playpause {
     width: 20px;
-    left: 31.5%;
+    left: calc(50vw - 240px);
 }
 
 .play {
@@ -37,7 +38,7 @@
 #screen {
     position: relative;
     margin: 20px 0;
-    border-radius: 50% / 40px;
+    border-radius: 25% / 40px;
     color: white;
     text-align: center;
     text-indent: .1em;

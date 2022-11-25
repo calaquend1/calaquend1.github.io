@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import './videoplayer.css'
 import play from './play.svg'
 import pause from './pause.svg'
+import Animations from './animations'
 
 const VideoPlayer = (): React.ReactElement => {
   const vidRef = useRef<any>(null)
@@ -48,6 +49,7 @@ const VideoPlayer = (): React.ReactElement => {
       </video>
       <img className={`controls playpause ${paused ? 'play' : 'pause'}`} src={paused ? play : pause} onClick={handleControlVideo} />
       <div className="controls interval">{currentTime.toFixed(1)} / {vidRef?.current?.duration.toFixed(1) || '-'}</div>
+      <Animations paused={paused} />
   </div>)
 }
 
